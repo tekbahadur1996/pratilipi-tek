@@ -12,3 +12,7 @@ run command
 now start the server
 
 ## npm start
+
+heroku link
+
+https://pratilipi-tek.herokuapp.com/
