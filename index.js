@@ -218,7 +218,6 @@ async function authMiddleware(req, res, next) {
             if (!token) {
                 return res.send("Token required or start new game");
             }
-
             // check for token
             let checkToken = connectionStatus.connection ? await PratilipiModel.findOne({ token }).lean() : await allTempData.find(x => x.token == token);
             if (!checkToken) {
@@ -254,6 +253,10 @@ async function updateDatabase(currentUserData) {
         item.winner = currentUserData.winner;
     }
 }
+
+app.get('/fetch', authMiddleware, async (req, res) => {
+    res.send(req.locals.matrix);
+})
 
 app.post('/', authMiddleware, async (req, res) => {
     try {
@@ -322,7 +325,3 @@ app.post('/', authMiddleware, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server started at ${PORT}`);
 });
-
-setInterval(x => {
-    console.log("this is temp data", allTempData.map(x => x.token));
-}, 5000)
